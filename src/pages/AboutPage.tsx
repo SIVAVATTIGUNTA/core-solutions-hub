@@ -7,7 +7,10 @@ import {
   Globe, 
   Users, 
   Award,
-  ArrowRight
+  ArrowRight,
+  User,
+  Handshake,
+  Lightbulb
 } from "lucide-react";
 
 const values = [
@@ -22,12 +25,12 @@ const values = [
     description: "We operate with transparency, honesty and ethical conduct in all our business relationships.",
   },
   {
-    icon: Users,
+    icon: Handshake,
     title: "Partnership",
     description: "We build lasting relationships based on trust, collaboration and mutual success with our clients.",
   },
   {
-    icon: Target,
+    icon: Lightbulb,
     title: "Innovation",
     description: "We embrace change and continuously seek better ways to solve complex technology challenges.",
   },
@@ -38,6 +41,39 @@ const locations = [
   { city: "Dubai", country: "United Arab Emirates", type: "Regional Office" },
   { city: "Singapore", country: "Singapore", type: "Regional Office" },
   { city: "Bangalore", country: "India", type: "Delivery Centre" },
+];
+
+const leadership = [
+  {
+    name: "Chief Executive Officer",
+    role: "CEO",
+    description: "Responsible for overall strategic direction, business development and stakeholder relationships. Brings over 20 years of experience in technology consulting and digital transformation leadership.",
+  },
+  {
+    name: "Chief Technology Officer",
+    role: "CTO",
+    description: "Leads technology strategy, innovation initiatives and engineering excellence. Expert in cloud architecture, emerging technologies and enterprise systems integration.",
+  },
+  {
+    name: "Head of Delivery",
+    role: "Delivery Lead",
+    description: "Oversees global delivery operations, project management and client success. Ensures quality, timeliness and operational excellence across all engagements.",
+  },
+  {
+    name: "Head of Workforce Solutions",
+    role: "Workforce Lead",
+    description: "Manages talent acquisition, workforce planning and resource management. Builds and nurtures our global network of technology professionals.",
+  },
+];
+
+const industries = [
+  "Financial Services",
+  "Retail & E-Commerce",
+  "Healthcare",
+  "Public Sector",
+  "Manufacturing",
+  "Technology",
+  "Energy & Utilities",
 ];
 
 export default function AboutPage() {
@@ -140,8 +176,39 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Global Presence */}
+      {/* Leadership Section */}
       <section className="section-padding bg-background">
+        <div className="container-wide">
+          <div className="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Leadership Team
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Experienced professionals driving our vision and delivering excellence.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {leadership.map((leader) => (
+              <div
+                key={leader.role}
+                className="card-elevated p-6 text-center"
+              >
+                <div className="w-20 h-20 rounded-full bg-secondary flex items-center justify-center mx-auto mb-4">
+                  <User className="h-10 w-10 text-muted-foreground" />
+                </div>
+                <h3 className="font-semibold text-foreground mb-1">{leader.name}</h3>
+                <p className="text-sm text-accent font-medium mb-3">{leader.role}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {leader.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Global Presence */}
+      <section className="section-padding bg-secondary">
         <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
@@ -151,7 +218,7 @@ export default function AboutPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
                 Global Presence, Local Expertise
               </h2>
-              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
                 With a UK headquarters in London and global delivery centres, we combine local market understanding with international expertise to provide end-to-end technology and talent solutions tailored to diverse organisational needs.
               </p>
               <p className="text-muted-foreground leading-relaxed">
@@ -162,13 +229,45 @@ export default function AboutPage() {
               {locations.map((location) => (
                 <div
                   key={location.city}
-                  className="bg-secondary rounded-xl p-6 border border-border"
+                  className="bg-card rounded-xl p-6 border border-border shadow-elevated"
                 >
                   <p className="text-sm text-accent font-medium mb-1">{location.type}</p>
                   <h4 className="text-lg font-semibold text-foreground">{location.city}</h4>
                   <p className="text-muted-foreground">{location.country}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Industries Served */}
+      <section className="section-padding bg-background">
+        <div className="container-wide">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="bg-secondary rounded-xl p-8 lg:p-10">
+                <h3 className="text-xl font-semibold text-foreground mb-6">Industries We Serve</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  {industries.map((industry) => (
+                    <div key={industry} className="flex items-center gap-3">
+                      <div className="w-2 h-2 rounded-full bg-accent" />
+                      <span className="text-muted-foreground">{industry}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="order-1 lg:order-2">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Deep Industry Expertise
+              </h2>
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                Our teams consist of seasoned consultants, engineers, solution architects, project leads and delivery specialists who bring deep domain knowledge across multiple industries.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                We understand the unique challenges, regulatory requirements and competitive dynamics of each sector, enabling us to deliver contextually relevant solutions that drive real business value.
+              </p>
             </div>
           </div>
         </div>

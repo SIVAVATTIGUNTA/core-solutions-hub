@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import { 
   Monitor, 
   Users, 
@@ -10,7 +11,9 @@ import {
   Globe,
   Shield,
   Clock,
-  Award
+  Award,
+  Building2,
+  MapPin
 } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 
@@ -231,8 +234,50 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Global Delivery Section */}
       <section className="section-padding bg-background">
+        <div className="container-wide">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div>
+              <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-6">
+                <Globe className="h-6 w-6 text-accent" />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Global Delivery Model
+              </h2>
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                Our hybrid delivery model combines onshore client engagement with nearshore and offshore engineering centres, ensuring cost efficiency, delivery speed and 24/7 operational support where required.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                This approach enables us to deliver solutions that are both commercially viable and technologically future-ready, with local market understanding combined with international expertise.
+              </p>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {[
+                { city: "London", country: "UK", type: "Headquarters" },
+                { city: "Dubai", country: "UAE", type: "Regional Office" },
+                { city: "Singapore", country: "Singapore", type: "Regional Office" },
+                { city: "Bangalore", country: "India", type: "Delivery Centre" },
+              ].map((location) => (
+                <div
+                  key={location.city}
+                  className="bg-secondary rounded-xl p-5 border border-border"
+                >
+                  <div className="flex items-center gap-2 text-accent mb-2">
+                    <MapPin className="h-4 w-4" />
+                    <span className="text-xs font-medium uppercase tracking-wider">{location.type}</span>
+                  </div>
+                  <h4 className="text-lg font-semibold text-foreground">{location.city}</h4>
+                  <p className="text-sm text-muted-foreground">{location.country}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="section-padding bg-secondary">
         <div className="container-wide">
           <div className="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -242,22 +287,7 @@ export default function HomePage() {
               Trusted by leading organisations across industries worldwide.
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className="card-elevated p-6 lg:p-8"
-              >
-                <blockquote className="text-foreground mb-6 leading-relaxed">
-                  "{testimonial.quote}"
-                </blockquote>
-                <div>
-                  <p className="font-semibold text-foreground">{testimonial.author}</p>
-                  <p className="text-sm text-muted-foreground">{testimonial.company}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <TestimonialCarousel testimonials={testimonials} autoPlayInterval={6000} />
         </div>
       </section>
 
