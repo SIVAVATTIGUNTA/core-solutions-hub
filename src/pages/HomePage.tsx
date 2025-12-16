@@ -1,274 +1,167 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import { 
-  Monitor, 
   Users, 
   Settings, 
-  Code, 
   Sparkles,
+  Code,
+  Briefcase,
   ArrowRight,
   Globe,
-  Shield,
-  Clock,
-  Award,
+  CheckCircle,
   Building2,
-  MapPin
+  Lightbulb,
+  Target,
+  Layers
 } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const services = [
   {
-    icon: Monitor,
-    title: "IT Consulting & Advisory",
-    description: "Strategic guidance on digital transformation, IT governance, enterprise architecture and technology roadmapping.",
-    href: "/services/it-consulting",
-  },
-  {
+    id: "workforce",
+    num: "01",
+    title: "Workforce Solutions",
+    subtitle: "Global Workforce Services & Solutions",
+    description: "Experience the power of AI giving you the upper hand by picking the top fit from a pool of CVs with TGC's contingent workforce management solutions.",
     icon: Users,
-    title: "Workforce & Talent Solutions",
-    description: "Access highly skilled technology professionals through flexible staffing, contract management and resource augmentation.",
     href: "/services/workforce-solutions",
   },
   {
+    id: "managed",
+    num: "02",
+    title: "Managed Services",
+    subtitle: "Managed Services With World Class Experts",
+    description: "We provide a variety of managed services to assist your business with everything from networking, data, and infrastructure management all the way up to security.",
     icon: Settings,
-    title: "Managed IT Services",
-    description: "End-to-end IT operations support including infrastructure management, cybersecurity monitoring and proactive maintenance.",
     href: "/services/managed-services",
   },
   {
+    id: "digital",
+    num: "03",
+    title: "Digital Services",
+    subtitle: "Digital & Emerging Technologies",
+    description: "We provide bespoke digital solutions for various industries with our innovative ideas and advanced tools that help you capture your business goals.",
+    icon: Sparkles,
+    href: "/services/emerging-tech",
+  },
+  {
+    id: "application",
+    num: "04",
+    title: "Application",
+    subtitle: "Application Services",
+    description: "The power of digital transformation lies in our deep technology expertise and we offer a range of diverse applications and organizational solutions.",
     icon: Code,
-    title: "Application Services",
-    description: "Full lifecycle application development from design to deployment, including modernisation and cloud-native engineering.",
     href: "/services/application-services",
   },
   {
-    icon: Sparkles,
-    title: "Digital & Emerging Technologies",
-    description: "Leverage AI, machine learning, RPA, blockchain and big data analytics for competitive advantage.",
-    href: "/services/emerging-tech",
+    id: "consulting",
+    num: "05",
+    title: "Consulting",
+    subtitle: "IT Consulting & Advisory",
+    description: "Strategic guidance on digital transformation, IT governance, enterprise architecture and technology roadmapping for your organization.",
+    icon: Briefcase,
+    href: "/services/it-consulting",
   },
 ];
 
-const stats = [
-  { value: "500+", label: "Projects Delivered" },
-  { value: "15+", label: "Years Experience" },
-  { value: "30+", label: "Countries Served" },
-  { value: "98%", label: "Client Retention" },
+const features = [
+  { icon: Lightbulb, title: "Professional Consulting", description: "Get help from our team of experienced consultants who will work with you to create a tailored solution." },
+  { icon: Building2, title: "Expertise in multiple industries", description: "We have worked with clients in a diverse range of industries across the globe." },
+  { icon: Target, title: "Customized solutions", description: "We understand that every business is different, and we create solutions unique to your needs." },
+  { icon: Layers, title: "Flexible engagement models", description: "We offer a variety of engagement models so you can choose the one that best fits your requirements." },
 ];
 
-const testimonials = [
-  {
-    quote: "TGC Technologies delivered outstanding consulting support that transformed our IT strategy. Their professionalism and technical expertise were exceptional.",
-    author: "Director of Technology",
-    company: "Leading Financial Services Firm",
-  },
-  {
-    quote: "The workforce solutions team helped us scale rapidly with high-quality engineers. Delivery was timely and seamless.",
-    author: "CTO",
-    company: "Global Retail Enterprise",
-  },
-  {
-    quote: "Our cloud migration programme would not have succeeded without TGC's guidance and hands-on leadership.",
-    author: "Head of IT",
-    company: "Healthcare Provider",
-  },
-];
-
-const differentiators = [
-  {
-    icon: Globe,
-    title: "Global Delivery",
-    description: "Onshore, nearshore and offshore capabilities ensure cost efficiency and 24/7 support.",
-  },
-  {
-    icon: Shield,
-    title: "Enterprise Security",
-    description: "GDPR compliant with robust security practices and certified professionals.",
-  },
-  {
-    icon: Clock,
-    title: "Rapid Deployment",
-    description: "Agile methodologies and proven frameworks accelerate time to value.",
-  },
-  {
-    icon: Award,
-    title: "Quality Assurance",
-    description: "Rigorous vetting and continuous improvement ensure exceptional delivery.",
-  },
+const clients = [
+  "Syntel", "Hexaware", "Tech Mahindra", "HCL", "Virtusa", "Genpact", "Harman", "Capita", "Mastek", "Polaris"
 ];
 
 export default function HomePage() {
+  const [activeService, setActiveService] = useState(0);
+
   return (
     <div className="flex flex-col">
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+      {/* Hero Services Slider */}
+      <section className="relative min-h-[70vh] flex flex-col">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
-        <div className="absolute inset-0 hero-gradient opacity-90" />
+        <div className="absolute inset-0 hero-gradient opacity-95" />
         
-        <div className="container-wide relative z-10 py-20 lg:py-32">
-        <div className="max-w-3xl">
-            <p className="text-accent font-medium mb-4">
-              Global Technology Consultancy
-            </p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6">
-              Empowering Digital Excellence Across Industries
-            </h1>
-            <p className="text-lg md:text-xl text-primary-foreground/80 mb-8 leading-relaxed">
-              We provide end-to-end technology consulting, managed services and workforce solutions that help organisations enhance performance, reduce risk and accelerate digital transformation.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button asChild variant="hero" size="xl">
-                <Link to="/contact">
-                  Speak to a Consultant
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-              <Button asChild variant="heroOutline" size="xl">
-                <Link to="/services">Explore Services</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="bg-secondary py-12 lg:py-16">
-        <div className="container-wide">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat) => (
-              <div 
-                key={stat.label} 
-                className="text-center"
-              >
-                <div className="text-3xl md:text-4xl lg:text-5xl font-bold text-accent mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-sm md:text-base text-muted-foreground font-medium">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section className="section-padding bg-background">
-        <div className="container-wide">
-          <div className="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Our Services
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Comprehensive technology and workforce solutions designed to drive your business forward.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {services.map((service, index) => (
-              <Link
-                key={service.title}
-                to={service.href}
-                className="group card-elevated p-6 lg:p-8 transition-all duration-300 hover:-translate-y-1"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-5 group-hover:bg-accent/20 transition-colors">
-                  <service.icon className="h-6 w-6 text-accent" />
-                </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-accent transition-colors">
-                  {service.title}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed mb-4">
-                  {service.description}
+        <div className="relative z-10 flex-1 flex flex-col">
+          {/* Service Content */}
+          <div className="flex-1 flex items-center">
+            <div className="container-wide py-16">
+              <div className="max-w-2xl">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight mb-4">
+                  {services[activeService].subtitle}
+                </h1>
+                <p className="text-lg text-primary-foreground/80 mb-8 leading-relaxed">
+                  {services[activeService].description}
                 </p>
-                <span className="inline-flex items-center text-sm font-medium text-accent">
-                  Learn more
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </Link>
-            ))}
+                <Button asChild variant="accent" size="lg">
+                  <Link to={services[activeService].href}>
+                    LEARN MORE
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
 
-      {/* Why Choose Us Section */}
-      <section className="section-padding bg-secondary">
-        <div className="container-wide">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                Why Partner with TGC Technologies?
-              </h2>
-              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                We believe in a consultancy-led engagement model that emphasises clarity, transparency and long-term value creation. Our global delivery model combines local expertise with international capabilities.
-              </p>
-              <div className="grid sm:grid-cols-2 gap-6">
-                {differentiators.map((item) => (
-                  <div key={item.title} className="flex gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
-                      <item.icon className="h-5 w-5 text-accent" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-1">{item.title}</h4>
-                      <p className="text-sm text-muted-foreground">{item.description}</p>
-                    </div>
-                  </div>
+          {/* Service Tabs */}
+          <div className="bg-primary/30 backdrop-blur-sm border-t border-primary-foreground/10">
+            <div className="container-wide">
+              <div className="flex overflow-x-auto">
+                {services.map((service, index) => (
+                  <button
+                    key={service.id}
+                    onClick={() => setActiveService(index)}
+                    className={`flex items-center gap-2 px-6 py-4 text-sm font-medium whitespace-nowrap transition-all border-b-2 ${
+                      activeService === index
+                        ? "text-accent border-accent bg-primary-foreground/5"
+                        : "text-primary-foreground/70 border-transparent hover:text-primary-foreground hover:bg-primary-foreground/5"
+                    }`}
+                  >
+                    <span className="text-accent font-bold">{service.num}</span>
+                    {service.title}
+                  </button>
                 ))}
               </div>
             </div>
-            <div className="bg-card rounded-xl p-8 lg:p-10 shadow-elevated-lg">
-              <h3 className="text-xl font-semibold text-foreground mb-6">Industries We Serve</h3>
-              <ul className="space-y-3">
-                {["Financial Services", "Retail & E-Commerce", "Healthcare", "Public Sector", "Manufacturing", "Technology", "Energy & Utilities"].map((industry) => (
-                  <li key={industry} className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-accent" />
-                    <span className="text-muted-foreground">{industry}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Global Delivery Section */}
+      {/* Global Consultancy Section */}
       <section className="section-padding bg-background">
         <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
-              <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-6">
-                <Globe className="h-6 w-6 text-accent" />
-              </div>
+              <p className="text-accent font-medium mb-2 uppercase tracking-wider text-sm">Global consultancy services</p>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                Global Delivery Model
+                Driving growth through impactful solutions
               </h2>
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                Our hybrid delivery model combines onshore client engagement with nearshore and offshore engineering centres, ensuring cost efficiency, delivery speed and 24/7 operational support where required.
+                Bring out the new version of your business with the right mix of technology and human resource aided by TGC's expert consultants. We help businesses increase their ROI, jumpstart their digital transformation journey, or implement automation for greater efficiency.
               </p>
-              <p className="text-muted-foreground leading-relaxed">
-                This approach enables us to deliver solutions that are both commercially viable and technologically future-ready, with local market understanding combined with international expertise.
+              <p className="text-muted-foreground mb-8">
+                In short, we aid you to become resourceful and future-ready.
               </p>
+              <Button asChild variant="accent" size="lg">
+                <Link to="/contact">
+                  Explore
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
             </div>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {[
-                { city: "London", country: "UK", type: "Headquarters" },
-                { city: "Dubai", country: "UAE", type: "Regional Office" },
-                { city: "Singapore", country: "Singapore", type: "Regional Office" },
-                { city: "Bangalore", country: "India", type: "Delivery Centre" },
-              ].map((location) => (
-                <div
-                  key={location.city}
-                  className="bg-secondary rounded-xl p-5 border border-border"
-                >
-                  <div className="flex items-center gap-2 text-accent mb-2">
-                    <MapPin className="h-4 w-4" />
-                    <span className="text-xs font-medium uppercase tracking-wider">{location.type}</span>
-                  </div>
-                  <h4 className="text-lg font-semibold text-foreground">{location.city}</h4>
-                  <p className="text-sm text-muted-foreground">{location.country}</p>
+            <div className="grid sm:grid-cols-2 gap-6">
+              {features.map((feature) => (
+                <div key={feature.title} className="bg-secondary rounded-xl p-6">
+                  <feature.icon className="h-8 w-8 text-accent mb-4" />
+                  <h4 className="font-semibold text-foreground mb-2">{feature.title}</h4>
+                  <p className="text-sm text-muted-foreground">{feature.description}</p>
                 </div>
               ))}
             </div>
@@ -276,33 +169,59 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="section-padding bg-secondary">
+      {/* Available Worldwide */}
+      <section className="section-padding hero-gradient">
         <div className="container-wide">
-          <div className="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              What Our Clients Say
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Trusted by leading organisations across industries worldwide.
-            </p>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="relative">
+              <img src={heroBg} alt="Global Presence" className="rounded-xl opacity-80" />
+            </div>
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-6">
+                Available Worldwide
+              </h2>
+              <p className="text-lg text-primary-foreground/80 mb-8 leading-relaxed">
+                TGC is a global company with a presence in more than 11 countries. We are able to provide our services to businesses of all sizes, anywhere in the world.
+              </p>
+              <Button asChild variant="accent" size="lg">
+                <Link to="/contact">Discover</Link>
+              </Button>
+            </div>
           </div>
-          <TestimonialCarousel testimonials={testimonials} autoPlayInterval={6000} />
+        </div>
+      </section>
+
+      {/* Technology Partners */}
+      <section className="py-16 bg-background">
+        <div className="container-wide text-center mb-10">
+          <p className="text-accent font-medium mb-2 uppercase tracking-wider text-sm">Technology Partners</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+            We work in partnership with all the major technology suppliers
+          </h2>
+        </div>
+        <div className="overflow-hidden">
+          <div className="flex gap-16 animate-scroll">
+            {[...clients, ...clients].map((client, index) => (
+              <div key={index} className="flex-shrink-0 px-8 py-4 bg-secondary rounded-lg">
+                <span className="text-muted-foreground font-medium">{client}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="hero-gradient py-16 lg:py-24">
+      <section className="dark-gradient py-16 lg:py-24">
         <div className="container-wide text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
-            Ready to Transform Your Technology Landscape?
+            Ready to Transform Your Business?
           </h2>
           <p className="text-lg text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
             Let's discuss how TGC Technologies can support your digital transformation journey.
           </p>
-          <Button asChild variant="hero" size="xl">
+          <Button asChild variant="accent" size="lg">
             <Link to="/contact">
-              Get in Touch
+              Contact Us
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
