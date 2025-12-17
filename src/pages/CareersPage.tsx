@@ -8,6 +8,9 @@ import {
   ArrowRight,
   CheckCircle
 } from "lucide-react";
+import workforceTeam from "@/assets/workforce-team.jpg";
+import workplace from "@/assets/workplace.jpg";
+import teamMeeting from "@/assets/team-meeting.jpg";
 
 const benefits = [
   "Competitive compensation packages",
@@ -59,8 +62,12 @@ export default function CareersPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="hero-gradient py-20 lg:py-28">
-        <div className="container-wide">
+      <section className="relative hero-gradient py-20 lg:py-28 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+          style={{ backgroundImage: `url(${workforceTeam})` }}
+        />
+        <div className="container-wide relative z-10">
           <div className="max-w-3xl">
             <p className="text-accent font-medium mb-4">Careers at TGC</p>
             <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground leading-tight mb-6">
@@ -83,6 +90,15 @@ export default function CareersPage() {
             <p className="text-lg text-muted-foreground">
               We offer a rewarding career environment with opportunities for growth and development.
             </p>
+          </div>
+          <div className="relative rounded-xl overflow-hidden mb-12 lg:mb-16 shadow-lg group">
+            <img 
+              src={workforceTeam}
+              alt="Diverse professional team collaborating" 
+              className="w-full h-96 object-cover rounded-xl transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent" />
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {values.map((value) => (
@@ -111,6 +127,15 @@ export default function CareersPage() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
             {/* Benefits */}
             <div>
+              <div className="relative rounded-xl overflow-hidden mb-6 shadow-lg group">
+                <img 
+                  src={workplace}
+                  alt="Modern workplace with happy employees" 
+                  className="w-full h-48 object-cover rounded-xl transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-secondary/30 to-transparent" />
+              </div>
               <h2 className="text-3xl font-bold text-foreground mb-6">
                 Employee Benefits
               </h2>
@@ -153,18 +178,22 @@ export default function CareersPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="hero-gradient py-16 lg:py-24">
-        <div className="container-wide text-center">
+      <section className="relative hero-gradient py-16 lg:py-24 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10"
+          style={{ backgroundImage: `url(${teamMeeting})` }}
+        />
+        <div className="container-wide relative z-10 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
             Ready to Build Your Future with TGC?
           </h2>
           <p className="text-lg text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
             Explore opportunities and take the next step in your technology career.
           </p>
-          <Button asChild variant="hero" size="xl">
+          <Button asChild variant="hero" size="xl" className="group">
             <Link to="/contact">
               Get in Touch
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>
         </div>

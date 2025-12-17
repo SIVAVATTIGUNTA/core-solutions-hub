@@ -4,7 +4,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { ScrollReveal } from "@/components/ScrollReveal";
+import { Mail, Phone, MapPin, Clock, CheckCircle2 } from "lucide-react";
+import officeBuilding from "@/assets/office-building.jpg";
+import teamMeeting from "@/assets/team-meeting.jpg";
 
 export default function ContactPage() {
   const { toast } = useToast();
@@ -16,20 +19,77 @@ export default function ContactPage() {
     phone: "",
     message: "",
   });
+  const [touched, setTouched] = useState({
+    fullName: false,
+    email: false,
+    message: false,
+  });
+  const [errors, setErrors] = useState({
+    fullName: "",
+    email: "",
+    message: "",
+  });
+
+  const validateField = (name: string, value: string) => {
+    let error = "";
+    if (name === "email" && value) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        error = "Please enter a valid email address";
+      }
+    }
+    if ((name === "fullName" || name === "message") && !value.trim()) {
+      error = "This field is required";
+    }
+    return error;
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    
+    if (touched[name as keyof typeof touched]) {
+      const error = validateField(name, value);
+      setErrors((prev) => ({ ...prev, [name]: error }));
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    const error = validateField(name, value);
+    setErrors((prev) => ({ ...prev, [name]: error }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate all required fields
+    const newTouched = {
+      fullName: true,
+      email: true,
+      message: true,
+    };
+    setTouched(newTouched);
+    
+    const newErrors = {
+      fullName: validateField("fullName", formData.fullName),
+      email: validateField("email", formData.email),
+      message: validateField("message", formData.message),
+    };
+    setErrors(newErrors);
+    
+    // Check if there are any errors
+    if (Object.values(newErrors).some(error => error !== "")) {
+      return;
+    }
+    
     setIsSubmitting(true);
 
     // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
     toast({
       title: "Message sent successfully",
@@ -43,14 +103,28 @@ export default function ContactPage() {
       phone: "",
       message: "",
     });
+    setTouched({
+      fullName: false,
+      email: false,
+      message: false,
+    });
+    setErrors({
+      fullName: "",
+      email: "",
+      message: "",
+    });
     setIsSubmitting(false);
   };
 
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="hero-gradient py-20 lg:py-28">
-        <div className="container-wide">
+      <section className="relative hero-gradient py-20 lg:py-28 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+          style={{ backgroundImage: `url(${officeBuilding})` }}
+        />
+        <div className="container-wide relative z-10">
           <div className="max-w-3xl">
             <p className="text-accent font-medium mb-4">Contact Us</p>
             <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground leading-tight mb-6">
@@ -64,95 +138,140 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Form & Info */}
-      <section className="section-padding bg-background">
-        <div className="container-wide">
+      <section className="section-padding bg-background relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03]">
+          <img 
+            src={teamMeeting} 
+            alt="" 
+            className="w-full h-full object-cover"
+            aria-hidden="true"
+          />
+        </div>
+        <div className="container-wide relative z-10">
           <div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
             {/* Contact Form */}
             <div className="lg:col-span-3">
-              <div className="card-elevated p-6 lg:p-10">
-                <h2 className="text-2xl font-bold text-foreground mb-6">
-                  Send Us a Message
-                </h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid sm:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="fullName">Full Name *</Label>
-                      <Input
-                        id="fullName"
-                        name="fullName"
-                        value={formData.fullName}
-                        onChange={handleInputChange}
-                        placeholder="Your full name"
-                        required
-                      />
+              <ScrollReveal>
+                <div className="card-elevated p-6 lg:p-10">
+                  <h2 className="text-2xl font-bold text-foreground mb-6">
+                    Send Us a Message
+                  </h2>
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid sm:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <Label htmlFor="fullName">Full Name *</Label>
+                        <Input
+                          id="fullName"
+                          name="fullName"
+                          value={formData.fullName}
+                          onChange={handleInputChange}
+                          onBlur={handleBlur}
+                          placeholder="Your full name"
+                          className={errors.fullName ? "border-destructive focus-visible:ring-destructive" : ""}
+                          aria-invalid={!!errors.fullName}
+                          aria-describedby={errors.fullName ? "fullName-error" : undefined}
+                        />
+                        {errors.fullName && (
+                          <p id="fullName-error" className="text-sm text-destructive flex items-center gap-1">
+                            <span>{errors.fullName}</span>
+                          </p>
+                        )}
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="company">Company</Label>
+                        <Input
+                          id="company"
+                          name="company"
+                          value={formData.company}
+                          onChange={handleInputChange}
+                          placeholder="Your company name"
+                        />
+                      </div>
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <Label htmlFor="email">Email Address *</Label>
+                        <Input
+                          id="email"
+                          name="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          onBlur={handleBlur}
+                          placeholder="your.email@company.com"
+                          className={errors.email ? "border-destructive focus-visible:ring-destructive" : ""}
+                          aria-invalid={!!errors.email}
+                          aria-describedby={errors.email ? "email-error" : undefined}
+                        />
+                        {errors.email && (
+                          <p id="email-error" className="text-sm text-destructive flex items-center gap-1">
+                            <span>{errors.email}</span>
+                          </p>
+                        )}
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="phone">Phone Number</Label>
+                        <Input
+                          id="phone"
+                          name="phone"
+                          type="tel"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          placeholder="+44 20 1234 5678"
+                        />
+                      </div>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="company">Company</Label>
-                      <Input
-                        id="company"
-                        name="company"
-                        value={formData.company}
+                      <Label htmlFor="message">Message *</Label>
+                      <Textarea
+                        id="message"
+                        name="message"
+                        value={formData.message}
                         onChange={handleInputChange}
-                        placeholder="Your company name"
+                        onBlur={handleBlur}
+                        placeholder="How can we help you?"
+                        rows={5}
+                        className={errors.message ? "border-destructive focus-visible:ring-destructive" : ""}
+                        aria-invalid={!!errors.message}
+                        aria-describedby={errors.message ? "message-error" : undefined}
                       />
+                      {errors.message && (
+                        <p id="message-error" className="text-sm text-destructive flex items-center gap-1">
+                          <span>{errors.message}</span>
+                        </p>
+                      )}
                     </div>
-                  </div>
-                  <div className="grid sm:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email Address *</Label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        placeholder="your.email@company.com"
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number</Label>
-                      <Input
-                        id="phone"
-                        name="phone"
-                        type="tel"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        placeholder="+44 20 1234 5678"
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="message">Message *</Label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      placeholder="How can we help you?"
-                      rows={5}
-                      required
-                    />
-                  </div>
-                  <Button
-                    type="submit"
-                    variant="accent"
-                    size="lg"
-                    disabled={isSubmitting}
-                    className="w-full sm:w-auto"
-                  >
-                    {isSubmitting ? "Sending..." : "Send Message"}
-                  </Button>
-                </form>
-              </div>
+                    <Button
+                      type="submit"
+                      variant="accent"
+                      size="lg"
+                      disabled={isSubmitting}
+                      className="w-full sm:w-auto group"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <span className="animate-spin mr-2">⏳</span>
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          Send Message
+                          <CheckCircle2 className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </>
+                      )}
+                    </Button>
+                  </form>
+                </div>
+              </ScrollReveal>
             </div>
 
             {/* Contact Information */}
             <div className="lg:col-span-2">
-              <h2 className="text-2xl font-bold text-foreground mb-6">
-                Contact Information
-              </h2>
-              <div className="space-y-6">
+              <ScrollReveal delay={200}>
+                <h2 className="text-2xl font-bold text-foreground mb-6">
+                  Contact Information
+                </h2>
+                <div className="space-y-6">
                 <div className="flex gap-4">
                   <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
                     <MapPin className="h-6 w-6 text-accent" />
@@ -215,10 +334,22 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Map placeholder */}
-              <div className="mt-8 bg-secondary rounded-xl h-48 flex items-center justify-center">
-                <p className="text-muted-foreground">Map Integration</p>
-              </div>
+                {/* Office Image */}
+                <div className="mt-8 relative rounded-xl overflow-hidden shadow-lg group">
+                  <img 
+                    src={officeBuilding}
+                    alt="TGC Technologies Office Location - Modern business building" 
+                    className="w-full h-64 object-cover rounded-xl transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/50 to-transparent flex items-end p-6">
+                    <div>
+                      <p className="text-primary-foreground font-semibold text-lg">London Headquarters</p>
+                      <p className="text-primary-foreground/90 text-sm">85 Uxbridge Road, Ealing Cross</p>
+                    </div>
+                  </div>
+                </div>
+              </ScrollReveal>
             </div>
           </div>
         </div>

@@ -12,6 +12,12 @@ import {
   Handshake,
   Lightbulb
 } from "lucide-react";
+import workforceTeam from "@/assets/workforce-team.jpg";
+import itConsulting from "@/assets/it-consulting.jpg";
+import dataAnalytics from "@/assets/data-analytics.jpg";
+import teamMeeting from "@/assets/team-meeting.jpg";
+import businessGrowth from "@/assets/business-growth.jpg";
+import innovation from "@/assets/innovation.jpg";
 
 const values = [
   {
@@ -80,8 +86,12 @@ export default function AboutPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="hero-gradient py-20 lg:py-28">
-        <div className="container-wide">
+      <section className="relative hero-gradient py-20 lg:py-28 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+          style={{ backgroundImage: `url(${workforceTeam})` }}
+        />
+        <div className="container-wide relative z-10">
           <div className="max-w-3xl">
             <p className="text-accent font-medium mb-4">About TGC Technologies</p>
             <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground leading-tight mb-6">
@@ -114,8 +124,18 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            <div className="bg-secondary rounded-xl p-8 lg:p-10">
-              <div className="space-y-8">
+            <div className="space-y-6">
+              <div className="relative rounded-xl overflow-hidden shadow-lg group">
+                <img 
+                  src={workforceTeam}
+                  alt="Professional team collaboration" 
+                  className="w-full h-64 object-cover rounded-xl transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent" />
+              </div>
+              <div className="bg-secondary rounded-xl p-8 lg:p-10">
+                <div className="space-y-8">
                 <div className="flex gap-4">
                   <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
                     <Target className="h-6 w-6 text-accent" />
@@ -138,6 +158,7 @@ export default function AboutPage() {
                     </p>
                   </div>
                 </div>
+                </div>
               </div>
             </div>
           </div>
@@ -154,6 +175,15 @@ export default function AboutPage() {
             <p className="text-lg text-muted-foreground">
               The principles that guide everything we do and how we deliver value to our clients.
             </p>
+          </div>
+          <div className="relative rounded-xl overflow-hidden mb-12 shadow-lg group">
+            <img 
+              src={teamMeeting}
+              alt="Team collaboration and values" 
+              className="w-full h-64 object-cover rounded-xl transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-secondary/60 via-secondary/30 to-transparent" />
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {values.map((value) => (
@@ -187,6 +217,15 @@ export default function AboutPage() {
               Experienced professionals driving our vision and delivering excellence.
             </p>
           </div>
+          <div className="relative rounded-xl overflow-hidden mb-12 shadow-lg group">
+            <img 
+              src={businessGrowth}
+              alt="Leadership and business growth" 
+              className="w-full h-64 object-cover rounded-xl transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-background/40 to-transparent" />
+          </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {leadership.map((leader) => (
               <div
@@ -211,6 +250,15 @@ export default function AboutPage() {
       <section className="section-padding bg-secondary">
         <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="relative rounded-xl overflow-hidden shadow-lg group">
+              <img 
+                src={itConsulting}
+                alt="Global technology network and connectivity" 
+                className="w-full h-full object-cover rounded-xl transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/10 to-transparent" />
+            </div>
             <div>
               <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-6">
                 <Globe className="h-6 w-6 text-accent" />
@@ -225,18 +273,18 @@ export default function AboutPage() {
                 Our hybrid delivery model combines onshore client engagement with nearshore and offshore engineering centres, ensuring cost efficiency, delivery speed and 24/7 operational support where required.
               </p>
             </div>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {locations.map((location) => (
-                <div
-                  key={location.city}
-                  className="bg-card rounded-xl p-6 border border-border shadow-elevated"
-                >
-                  <p className="text-sm text-accent font-medium mb-1">{location.type}</p>
-                  <h4 className="text-lg font-semibold text-foreground">{location.city}</h4>
-                  <p className="text-muted-foreground">{location.country}</p>
-                </div>
-              ))}
-            </div>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
+            {locations.map((location) => (
+              <div
+                key={location.city}
+                className="bg-card rounded-xl p-6 border border-border shadow-elevated"
+              >
+                <p className="text-sm text-accent font-medium mb-1">{location.type}</p>
+                <h4 className="text-lg font-semibold text-foreground">{location.city}</h4>
+                <p className="text-muted-foreground">{location.country}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -245,7 +293,25 @@ export default function AboutPage() {
       <section className="section-padding bg-background">
         <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div className="order-2 lg:order-1">
+            <div className="order-2 lg:order-1 relative rounded-xl overflow-hidden shadow-lg group">
+              <img 
+                src={dataAnalytics}
+                alt="Business analytics and data visualization" 
+                className="w-full h-full object-cover rounded-xl transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent" />
+            </div>
+            <div className="order-1 lg:order-2">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Deep Industry Expertise
+              </h2>
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                Our teams consist of seasoned consultants, engineers, solution architects, project leads and delivery specialists who bring deep domain knowledge across multiple industries.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mb-6">
+                We understand the unique challenges, regulatory requirements and competitive dynamics of each sector, enabling us to deliver contextually relevant solutions that drive real business value.
+              </p>
               <div className="bg-secondary rounded-xl p-8 lg:p-10">
                 <h3 className="text-xl font-semibold text-foreground mb-6">Industries We Serve</h3>
                 <div className="grid grid-cols-2 gap-4">
@@ -258,34 +324,27 @@ export default function AboutPage() {
                 </div>
               </div>
             </div>
-            <div className="order-1 lg:order-2">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                Deep Industry Expertise
-              </h2>
-              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                Our teams consist of seasoned consultants, engineers, solution architects, project leads and delivery specialists who bring deep domain knowledge across multiple industries.
-              </p>
-              <p className="text-muted-foreground leading-relaxed">
-                We understand the unique challenges, regulatory requirements and competitive dynamics of each sector, enabling us to deliver contextually relevant solutions that drive real business value.
-              </p>
-            </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="hero-gradient py-16 lg:py-24">
-        <div className="container-wide text-center">
+      <section className="relative hero-gradient py-16 lg:py-24 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10"
+          style={{ backgroundImage: `url(${businessGrowth})` }}
+        />
+        <div className="container-wide relative z-10 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
             Partner with TGC Technologies
           </h2>
           <p className="text-lg text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
             Let's discuss how we can support your organisation's digital transformation journey.
           </p>
-          <Button asChild variant="hero" size="xl">
+          <Button asChild variant="hero" size="xl" className="group">
             <Link to="/contact">
               Contact Us
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>
         </div>

@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Linkedin, Twitter } from "lucide-react";
 
@@ -22,6 +23,16 @@ const footerNavigation = {
 };
 
 export function Footer() {
+  const [logoLoaded, setLogoLoaded] = useState(false);
+
+  // Check if logo exists on mount
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => setLogoLoaded(true);
+    img.onerror = () => setLogoLoaded(false);
+    img.src = "/tgc-logo.png";
+  }, []);
+  
   return (
     <footer className="bg-primary text-primary-foreground" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">
@@ -32,9 +43,21 @@ export function Footer() {
           {/* Company Info */}
           <div className="space-y-6">
             <Link to="/" className="inline-block">
-              <span className="font-heading text-xl font-bold">
-                TGC<span className="text-accent">.</span>Technologies
-              </span>
+              {logoLoaded ? (
+                <div className="bg-white rounded-xl p-4 shadow-xl border-2 border-primary-foreground/20 inline-block">
+                  <img 
+                    src="/tgc-logo.png" 
+                    alt="TGC Technologies - Go Grow Global" 
+                    className="h-16 lg:h-20 w-auto object-contain transition-opacity duration-300"
+                    onError={() => setLogoLoaded(false)}
+                    onLoad={() => setLogoLoaded(true)}
+                  />
+                </div>
+              ) : (
+                <span className="font-heading text-xl font-bold">
+                  TGC<span className="text-accent">.</span>Technologies
+                </span>
+              )}
             </Link>
             <p className="text-sm leading-relaxed text-primary-foreground/80 max-w-xs">
               Global technology consulting and workforce solutions. Empowering organisations to thrive in a digital-first world.

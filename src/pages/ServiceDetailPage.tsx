@@ -13,6 +13,11 @@ import {
   Target,
   Zap
 } from "lucide-react";
+import itConsulting from "@/assets/it-consulting.jpg";
+import workforceTeam from "@/assets/workforce-team.jpg";
+import managedServices from "@/assets/managed-services.jpg";
+import softwareDev from "@/assets/software-dev.jpg";
+import digitalTech from "@/assets/digital-tech.jpg";
 
 const servicesData = {
   "it-consulting": {
@@ -160,8 +165,18 @@ export default function ServiceDetailPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="hero-gradient py-20 lg:py-28">
-        <div className="container-wide">
+      <section className="relative hero-gradient py-20 lg:py-28 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+          style={{ backgroundImage: `url(${
+            serviceId === "it-consulting" ? itConsulting :
+            serviceId === "workforce-solutions" ? workforceTeam :
+            serviceId === "managed-services" ? managedServices :
+            serviceId === "application-services" ? softwareDev :
+            digitalTech
+          })` }}
+        />
+        <div className="container-wide relative z-10">
           <Link 
             to="/services" 
             className="inline-flex items-center text-primary-foreground/70 hover:text-accent mb-6 transition-colors"
@@ -188,6 +203,21 @@ export default function ServiceDetailPage() {
         <div className="container-wide">
           <div className="grid lg:grid-cols-3 gap-12 lg:gap-16">
             <div className="lg:col-span-2">
+              <div className="relative rounded-xl overflow-hidden mb-6 shadow-lg group">
+                <img 
+                  src={
+                    serviceId === "it-consulting" ? itConsulting :
+                    serviceId === "workforce-solutions" ? workforceTeam :
+                    serviceId === "managed-services" ? managedServices :
+                    serviceId === "application-services" ? softwareDev :
+                    digitalTech
+                  }
+                  alt={service.title}
+                  className="w-full h-64 object-cover rounded-xl transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-secondary/30 to-transparent" />
+              </div>
               <h2 className="text-2xl font-bold text-foreground mb-6">Overview</h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 {service.overview}

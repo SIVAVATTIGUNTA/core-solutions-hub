@@ -9,6 +9,9 @@ import {
   BarChart3,
   ArrowRight
 } from "lucide-react";
+import cloudTech from "@/assets/cloud-tech.jpg";
+import innovation from "@/assets/innovation.jpg";
+import analyticsDashboard from "@/assets/analytics-dashboard.jpg";
 
 const technologies = [
   {
@@ -53,8 +56,12 @@ export default function TechnologiesPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="hero-gradient py-20 lg:py-28">
-        <div className="container-wide">
+      <section className="relative hero-gradient py-20 lg:py-28 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+          style={{ backgroundImage: `url(${cloudTech})` }}
+        />
+        <div className="container-wide relative z-10">
           <div className="max-w-3xl">
             <p className="text-accent font-medium mb-4">Technologies</p>
             <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground leading-tight mb-6">
@@ -70,30 +77,49 @@ export default function TechnologiesPage() {
       {/* Technologies Grid */}
       <section className="section-padding bg-background">
         <div className="container-wide">
+          <div className="relative rounded-xl overflow-hidden mb-12 lg:mb-16 shadow-lg group">
+            <img 
+              src={cloudTech}
+              alt="Modern cloud computing and technology infrastructure" 
+              className="w-full h-96 object-cover rounded-xl transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent" />
+          </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {technologies.map((tech) => (
+            {technologies.map((tech, index) => (
               <div
                 key={tech.title}
-                className="card-elevated p-6 lg:p-8 hover:-translate-y-1 transition-all duration-300"
+                className="card-elevated p-6 lg:p-8 hover:-translate-y-1 transition-all duration-300 overflow-hidden relative group"
               >
-                <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-5">
-                  <tech.icon className="h-6 w-6 text-accent" />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300">
+                  <img 
+                    src={index % 2 === 0 ? innovation : analyticsDashboard}
+                    alt=""
+                    className="w-full h-full object-cover"
+                    aria-hidden="true"
+                  />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">
-                  {tech.title}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed mb-5">
-                  {tech.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {tech.items.map((item) => (
-                    <span
-                      key={item}
-                      className="px-3 py-1 text-xs font-medium bg-secondary text-muted-foreground rounded-full"
-                    >
-                      {item}
-                    </span>
-                  ))}
+                <div className="relative z-10">
+                  <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-5">
+                    <tech.icon className="h-6 w-6 text-accent" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-foreground mb-3">
+                    {tech.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed mb-5">
+                    {tech.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {tech.items.map((item) => (
+                      <span
+                        key={item}
+                        className="px-3 py-1 text-xs font-medium bg-secondary text-muted-foreground rounded-full"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
@@ -102,8 +128,16 @@ export default function TechnologiesPage() {
       </section>
 
       {/* Partners Section */}
-      <section className="section-padding bg-secondary">
-        <div className="container-wide">
+      <section className="section-padding bg-secondary relative overflow-hidden">
+        <div className="absolute inset-0 opacity-5">
+          <img 
+            src={innovation} 
+            alt="" 
+            className="w-full h-full object-cover"
+            aria-hidden="true"
+          />
+        </div>
+        <div className="container-wide relative z-10">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Strategic Technology Partnerships

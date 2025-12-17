@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { ScrollReveal } from "@/components/ScrollReveal";
 import { 
   Users, 
   Settings, 
@@ -15,7 +16,12 @@ import {
   Target,
   Layers
 } from "lucide-react";
-import heroBg from "@/assets/hero-bg.jpg";
+import consultingHero from "@/assets/consulting-hero.jpg";
+import itConsulting from "@/assets/it-consulting.jpg";
+import cloudTech from "@/assets/cloud-tech.jpg";
+import workforceTeam from "@/assets/workforce-team.jpg";
+import techPartners from "@/assets/tech-partners.jpg";
+import digitalTransformation from "@/assets/digital-transformation.jpg";
 
 const services = [
   {
@@ -78,14 +84,24 @@ const clients = [
 
 export default function HomePage() {
   const [activeService, setActiveService] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  useEffect(() => {
+    setIsTransitioning(true);
+    const timer = setTimeout(() => setIsTransitioning(false), 500);
+    return () => clearTimeout(timer);
+  }, [activeService]);
 
   return (
     <div className="flex flex-col">
       {/* Hero Services Slider */}
-      <section className="relative min-h-[70vh] flex flex-col">
+      <section className="relative min-h-[70vh] flex flex-col overflow-hidden">
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${heroBg})` }}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 ease-out"
+          style={{ 
+            backgroundImage: `url(${consultingHero})`,
+            transform: isTransitioning ? 'scale(1.05)' : 'scale(1)'
+          }}
         />
         <div className="absolute inset-0 hero-gradient opacity-95" />
         
@@ -93,17 +109,17 @@ export default function HomePage() {
           {/* Service Content */}
           <div className="flex-1 flex items-center">
             <div className="container-wide py-16">
-              <div className="max-w-2xl">
+              <div className={`max-w-2xl transition-all duration-500 ${isTransitioning ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight mb-4">
                   {services[activeService].subtitle}
                 </h1>
                 <p className="text-lg text-primary-foreground/80 mb-8 leading-relaxed">
                   {services[activeService].description}
                 </p>
-                <Button asChild variant="accent" size="lg">
+                <Button asChild variant="accent" size="lg" className="group">
                   <Link to={services[activeService].href}>
                     LEARN MORE
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </Button>
               </div>
@@ -138,32 +154,49 @@ export default function HomePage() {
       <section className="section-padding bg-background">
         <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div>
-              <p className="text-accent font-medium mb-2 uppercase tracking-wider text-sm">Global consultancy services</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                Driving growth through impactful solutions
-              </h2>
-              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                Bring out the new version of your business with the right mix of technology and human resource aided by TGC's expert consultants. We help businesses increase their ROI, jumpstart their digital transformation journey, or implement automation for greater efficiency.
-              </p>
-              <p className="text-muted-foreground mb-8">
-                In short, we aid you to become resourceful and future-ready.
-              </p>
-              <Button asChild variant="accent" size="lg">
-                <Link to="/contact">
-                  Explore
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-            <div className="grid sm:grid-cols-2 gap-6">
-              {features.map((feature) => (
-                <div key={feature.title} className="bg-secondary rounded-xl p-6">
-                  <feature.icon className="h-8 w-8 text-accent mb-4" />
-                  <h4 className="font-semibold text-foreground mb-2">{feature.title}</h4>
-                  <p className="text-sm text-muted-foreground">{feature.description}</p>
+            <ScrollReveal>
+              <div>
+                <p className="text-accent font-medium mb-2 uppercase tracking-wider text-sm">Global consultancy services</p>
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                  Driving growth through impactful solutions
+                </h2>
+                <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                  Bring out the new version of your business with the right mix of technology and human resource aided by TGC's expert consultants. We help businesses increase their ROI, jumpstart their digital transformation journey, or implement automation for greater efficiency.
+                </p>
+                <p className="text-muted-foreground mb-8">
+                  In short, we aid you to become resourceful and future-ready.
+                </p>
+                <Button asChild variant="accent" size="lg" className="group">
+                  <Link to="/contact">
+                    Explore
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </Button>
+              </div>
+            </ScrollReveal>
+            <div className="space-y-6">
+              <ScrollReveal delay={100}>
+                <div className="relative rounded-xl overflow-hidden shadow-lg group">
+                  <img 
+                    src={workforceTeam}
+                    alt="Professional team collaboration and consulting" 
+                    className="w-full h-48 object-cover rounded-xl transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-secondary/40 to-transparent" />
                 </div>
-              ))}
+              </ScrollReveal>
+              <div className="grid sm:grid-cols-2 gap-6">
+                {features.map((feature, index) => (
+                  <ScrollReveal key={feature.title} delay={(index + 2) * 100}>
+                    <div className="bg-secondary rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                      <feature.icon className="h-8 w-8 text-accent mb-4 transition-transform duration-300 hover:scale-110" />
+                      <h4 className="font-semibold text-foreground mb-2">{feature.title}</h4>
+                      <p className="text-sm text-muted-foreground">{feature.description}</p>
+                    </div>
+                  </ScrollReveal>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -173,56 +206,83 @@ export default function HomePage() {
       <section className="section-padding hero-gradient">
         <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="relative">
-              <img src={heroBg} alt="Global Presence" className="rounded-xl opacity-80" />
-            </div>
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-6">
-                Available Worldwide
-              </h2>
-              <p className="text-lg text-primary-foreground/80 mb-8 leading-relaxed">
-                TGC is a global company with a presence in more than 11 countries. We are able to provide our services to businesses of all sizes, anywhere in the world.
-              </p>
-              <Button asChild variant="accent" size="lg">
-                <Link to="/contact">Discover</Link>
-              </Button>
-            </div>
+            <ScrollReveal>
+              <div className="relative overflow-hidden rounded-xl shadow-lg group">
+                <img 
+                  src={cloudTech} 
+                  alt="Global technology presence and connectivity" 
+                  className="rounded-xl opacity-90 transition-transform duration-700 group-hover:scale-105" 
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-primary/10 to-transparent" />
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={200}>
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-6">
+                  Available Worldwide
+                </h2>
+                <p className="text-lg text-primary-foreground/80 mb-8 leading-relaxed">
+                  TGC is a global company with a presence in more than 11 countries. We are able to provide our services to businesses of all sizes, anywhere in the world.
+                </p>
+                <Button asChild variant="accent" size="lg" className="group">
+                  <Link to="/contact">
+                    Discover
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </Button>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
 
       {/* Technology Partners */}
-      <section className="py-16 bg-background">
-        <div className="container-wide text-center mb-10">
-          <p className="text-accent font-medium mb-2 uppercase tracking-wider text-sm">Technology Partners</p>
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground">
-            We work in partnership with all the major technology suppliers
-          </h2>
+      <section className="py-16 bg-background relative overflow-hidden">
+        <div className="absolute inset-0 opacity-5">
+          <img 
+            src={techPartners} 
+            alt="" 
+            className="w-full h-full object-cover"
+            aria-hidden="true"
+          />
         </div>
-        <div className="overflow-hidden">
-          <div className="flex gap-16 animate-scroll">
-            {[...clients, ...clients].map((client, index) => (
-              <div key={index} className="flex-shrink-0 px-8 py-4 bg-secondary rounded-lg">
-                <span className="text-muted-foreground font-medium">{client}</span>
-              </div>
-            ))}
+        <div className="container-wide relative z-10">
+          <div className="text-center mb-10">
+            <p className="text-accent font-medium mb-2 uppercase tracking-wider text-sm">Technology Partners</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+              We work in partnership with all the major technology suppliers
+            </h2>
+          </div>
+          <div className="overflow-hidden">
+            <div className="flex gap-16 animate-scroll">
+              {[...clients, ...clients].map((client, index) => (
+                <div key={index} className="flex-shrink-0 px-8 py-4 bg-secondary rounded-lg">
+                  <span className="text-muted-foreground font-medium">{client}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="dark-gradient py-16 lg:py-24">
-        <div className="container-wide text-center">
+      <section className="relative dark-gradient py-16 lg:py-24 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10"
+          style={{ backgroundImage: `url(${digitalTransformation})` }}
+        />
+        <div className="container-wide relative z-10 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
             Ready to Transform Your Business?
           </h2>
           <p className="text-lg text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
             Let's discuss how TGC Technologies can support your digital transformation journey.
           </p>
-          <Button asChild variant="accent" size="lg">
+          <Button asChild variant="accent" size="lg" className="group">
             <Link to="/contact">
               Contact Us
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>
         </div>
