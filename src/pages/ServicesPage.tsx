@@ -111,11 +111,11 @@ export default function ServicesPage() {
         />
         <div className="container-wide relative z-10">
           <div className="max-w-3xl">
-            <p className="text-accent font-medium mb-4">Our Services</p>
-            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground leading-tight mb-6">
+            <p className="text-accent font-semibold mb-4 text-sm uppercase tracking-wide">Our Services</p>
+            <h1 className="heading-lg text-primary-foreground mb-6 text-balance">
               Comprehensive Technology & Workforce Solutions
             </h1>
-            <p className="text-lg text-primary-foreground/80 leading-relaxed">
+            <p className="text-body-lg text-primary-foreground/90 text-pretty">
               From strategic consulting to hands-on delivery, we provide end-to-end services designed to drive digital transformation and operational excellence.
             </p>
           </div>

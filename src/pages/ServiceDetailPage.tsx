@@ -18,6 +18,9 @@ import workforceTeam from "@/assets/workforce-team.jpg";
 import managedServices from "@/assets/managed-services.jpg";
 import softwareDev from "@/assets/software-dev.jpg";
 import digitalTech from "@/assets/digital-tech.jpg";
+import businessStrategy from "@/assets/business-strategy.jpg";
+import teamCollaboration from "@/assets/team-collaboration.jpg";
+import modernOffice from "@/assets/modern-office.jpg";
 
 const servicesData = {
   "it-consulting": {
@@ -242,6 +245,15 @@ export default function ServiceDetailPage() {
       {/* Capabilities & Benefits */}
       <section className="section-padding bg-secondary">
         <div className="container-wide">
+          <div className="relative rounded-xl overflow-hidden mb-8 shadow-lg group">
+            <img 
+              src={teamCollaboration}
+              alt="Team collaboration and service delivery" 
+              className="w-full h-64 object-cover rounded-xl transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-secondary/60 via-secondary/30 to-transparent" />
+          </div>
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
             {/* Capabilities */}
             <div className="bg-card rounded-xl p-6 lg:p-8 shadow-elevated">
@@ -289,7 +301,7 @@ export default function ServiceDetailPage() {
               </p>
               <div className="grid sm:grid-cols-2 gap-4">
                 {["Discovery & Assessment", "Strategy & Planning", "Implementation", "Optimisation & Support"].map((phase, index) => (
-                  <div key={phase} className="flex items-center gap-3 bg-secondary rounded-lg p-4">
+                  <div key={phase} className="flex items-center gap-3 bg-secondary rounded-lg p-4 hover:shadow-md transition-all duration-300">
                     <div className="w-8 h-8 rounded-full bg-accent text-accent-foreground flex items-center justify-center text-sm font-bold">
                       {index + 1}
                     </div>
@@ -298,17 +310,28 @@ export default function ServiceDetailPage() {
                 ))}
               </div>
             </div>
-            <div className="bg-secondary rounded-xl p-8">
-              <h3 className="font-semibold text-foreground mb-4">Tools & Technologies</h3>
-              <div className="flex flex-wrap gap-2">
-                {service.technologies.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-4 py-2 text-sm font-medium bg-card text-muted-foreground rounded-full border border-border"
-                  >
-                    {tech}
-                  </span>
-                ))}
+            <div className="space-y-6">
+              <div className="relative rounded-xl overflow-hidden shadow-lg group">
+                <img 
+                  src={businessStrategy}
+                  alt="Strategic planning and delivery approach" 
+                  className="w-full h-48 object-cover rounded-xl transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-secondary/40 to-transparent" />
+              </div>
+              <div className="bg-secondary rounded-xl p-8">
+                <h3 className="font-semibold text-foreground mb-4">Tools & Technologies</h3>
+                <div className="flex flex-wrap gap-2">
+                  {service.technologies.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-4 py-2 text-sm font-medium bg-card text-muted-foreground rounded-full border border-border"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

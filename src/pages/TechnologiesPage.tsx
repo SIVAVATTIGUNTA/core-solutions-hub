@@ -63,11 +63,11 @@ export default function TechnologiesPage() {
         />
         <div className="container-wide relative z-10">
           <div className="max-w-3xl">
-            <p className="text-accent font-medium mb-4">Technologies</p>
-            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground leading-tight mb-6">
+            <p className="text-accent font-semibold mb-4 text-sm uppercase tracking-wide">Technologies</p>
+            <h1 className="heading-lg text-primary-foreground mb-6 text-balance">
               Technology Expertise That Drives Results
             </h1>
-            <p className="text-lg text-primary-foreground/80 leading-relaxed">
+            <p className="text-body-lg text-primary-foreground/90 text-pretty">
               We leverage industry-leading technologies and platforms to deliver solutions that are scalable, secure and future-ready.
             </p>
           </div>

@@ -11,38 +11,88 @@ import teamMeeting from "@/assets/team-meeting.jpg";
 
 export default function ContactPage() {
   const { toast } = useToast();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    fullName: "",
-    company: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
-  const [touched, setTouched] = useState({
-    fullName: false,
-    email: false,
-    message: false,
-  });
-  const [errors, setErrors] = useState({
-    fullName: "",
-    email: "",
-    message: "",
-  });
+  fullName: "",
+  company: "",
+  email: "",
+  phone: "",
+  message: "",
+});
 
-  const validateField = (name: string, value: string) => {
-    let error = "";
-    if (name === "email" && value) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(value)) {
-        error = "Please enter a valid email address";
+const [touched, setTouched] = useState({
+  fullName: false,
+  company: false,
+  email: false,
+  phone: false,
+  message: false,
+});
+
+const [errors, setErrors] = useState({
+  fullName: "",
+  company: "",
+  email: "",
+  phone: "",
+  message: "",
+});
+
+
+ const validateField = (name: string, value: string) => {
+  let error = "";
+
+  switch (name) {
+    case "fullName":
+      if (!value.trim()) {
+        error = "Full name is required";
+      } else if (value.trim().length < 2) {
+        error = "Full name must be at least 2 characters";
       }
-    }
-    if ((name === "fullName" || name === "message") && !value.trim()) {
-      error = "This field is required";
-    }
-    return error;
-  };
+      break;
+
+    case "company":
+      if (!value.trim()) {
+        error = "Company name is required";
+      }
+      break;
+
+    case "email":
+      if (!value.trim()) {
+        error = "Email address is required";
+      } else {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          error = "Please enter a valid email address";
+        }
+      }
+      break;
+
+    case "phone":
+      if (!value.trim()) {
+        error = "Phone number is required";
+      } else {
+        const phoneRegex = /^[0-9+()\-\s]{7,20}$/;
+        if (!phoneRegex.test(value)) {
+          error = "Please enter a valid phone number";
+        }
+      }
+      break;
+
+    case "message":
+      if (!value.trim()) {
+        error = "Message is required";
+      } else if (value.trim().length < 10) {
+        error = "Message must be at least 10 characters";
+      }
+      break;
+
+    default:
+      break;
+  }
+
+  return error;
+};
+
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -63,39 +113,62 @@ export default function ContactPage() {
     setErrors((prev) => ({ ...prev, [name]: error }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Validate all required fields
-    const newTouched = {
-      fullName: true,
-      email: true,
-      message: true,
-    };
-    setTouched(newTouched);
-    
-    const newErrors = {
-      fullName: validateField("fullName", formData.fullName),
-      email: validateField("email", formData.email),
-      message: validateField("message", formData.message),
-    };
-    setErrors(newErrors);
-    
-    // Check if there are any errors
-    if (Object.values(newErrors).some(error => error !== "")) {
-      return;
-    }
-    
-    setIsSubmitting(true);
+ 
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  const newTouched = {
+    fullName: true,
+    company: true,
+    email: true,
+    phone: true,
+    message: true,
+  };
+  setTouched(newTouched);
+
+  const newErrors = {
+    fullName: validateField("fullName", formData.fullName),
+    email: validateField("email", formData.email),
+    message: validateField("message", formData.message),
+    company: validateField("company", formData.company),
+    phone: validateField("phone", formData.phone),
+  };
+
+  setErrors(newErrors);
+
+  if (Object.values(newErrors).some(err => err !== "")) return;
+
+  setIsSubmitting(true);
+
+  try {
+    const response = await fetch("https://tgcworld.co.uk/api/contact.php", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+        fullName: formData.fullName,
+        company: formData.company,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+      }),
+});
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.error || "Something went wrong");
+    }
 
     toast({
       title: "Message sent successfully",
       description: "We'll be in touch with you shortly.",
     });
 
+    // Reset form
     setFormData({
       fullName: "",
       company: "",
@@ -105,16 +178,31 @@ export default function ContactPage() {
     });
     setTouched({
       fullName: false,
+      company: false,
       email: false,
+      phone: false,
       message: false,
     });
     setErrors({
       fullName: "",
+      company: "",
       email: "",
+      phone: "",
       message: "",
     });
+
+  } catch (error: any) {
+    console.error("Error submitting contact form:", error);
+    toast({
+      title: "Submission failed",
+      description: error.message || "Please try again later",
+      variant: "destructive",
+    });
+  } finally {
     setIsSubmitting(false);
-  };
+  }
+};
+
 
   return (
     <div className="flex flex-col">
@@ -185,7 +273,17 @@ export default function ContactPage() {
                           value={formData.company}
                           onChange={handleInputChange}
                           placeholder="Your company name"
+                          onBlur={handleBlur}
+                          className={errors.company ? "border-destructive focus-visible:ring-destructive" : ""}
+                          aria-invalid={!!errors.company}  
+                          aria-describedby={errors.company ? "company-error" : undefined} 
+
                         />
+                        {errors.company && (
+                          <p id="company-error" className="text-sm text-destructive flex items-center gap-1">
+                            <span>{errors.company}</span>
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div className="grid sm:grid-cols-2 gap-6">
@@ -216,9 +314,18 @@ export default function ContactPage() {
                           name="phone"
                           type="tel"
                           value={formData.phone}
+                          onBlur={handleBlur}
                           onChange={handleInputChange}
                           placeholder="+44 20 1234 5678"
+                          className={errors.phone ? "border-destructive focus-visible:ring-destructive" : ""}
+                          aria-invalid={!!errors.phone}
+                          aria-describedby={errors.phone ? "phone-error" : undefined}
                         />
+                        {errors.phone && (
+                        <p id="phone-error" className="text-sm text-destructive flex items-center gap-1">
+                          <span>{errors.phone}</span>
+                        </p>
+                      )}
                       </div>
                     </div>
                     <div className="space-y-2">

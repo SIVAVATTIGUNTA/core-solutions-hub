@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, Linkedin, Twitter } from "lucide-react";
+import { Mail, MapPin, Linkedin, Twitter } from "lucide-react";
 
 const footerNavigation = {
   services: [
@@ -30,7 +30,7 @@ export function Footer() {
     const img = new Image();
     img.onload = () => setLogoLoaded(true);
     img.onerror = () => setLogoLoaded(false);
-    img.src = "/tgc-logo.png";
+    img.src = "/tgc-logo.jpeg";
   }, []);
   
   return (
@@ -46,7 +46,7 @@ export function Footer() {
               {logoLoaded ? (
                 <div className="bg-white rounded-xl p-4 shadow-xl border-2 border-primary-foreground/20 inline-block">
                   <img 
-                    src="/tgc-logo.png" 
+                    src="/tgc-logo.jpeg" 
                     alt="TGC Technologies - Go Grow Global" 
                     className="h-16 lg:h-20 w-auto object-contain transition-opacity duration-300"
                     onError={() => setLogoLoaded(false)}
@@ -65,18 +65,12 @@ export function Footer() {
             <div className="space-y-3 text-sm text-primary-foreground/80">
               <div className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 flex-shrink-0 text-accent" />
-                <span>85 Uxbridge Road, 1st Floor,<br />Ealing Cross, London W5</span>
+                <span>85 Uxbridge Road, 1st Floor,<br />Ealing Cross, London W5 5BW</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5 flex-shrink-0 text-accent" />
-                <a href="mailto:info@tgcworld.com" className="hover:text-accent transition-colors">
-                  info@tgcworld.com
-                </a>
-              </div>
-              <div className="flex items-center gap-3">
-                <Phone className="h-5 w-5 flex-shrink-0 text-accent" />
-                <a href="tel:+442012345678" className="hover:text-accent transition-colors">
-                  +44 20 1234 5678
+                <a href="mailto:info@tgcworld.co.uk" className="hover:text-accent transition-colors">
+                  info@tgcworld.co.uk
                 </a>
               </div>
             </div>

@@ -11,6 +11,8 @@ import {
 import workforceTeam from "@/assets/workforce-team.jpg";
 import workplace from "@/assets/workplace.jpg";
 import teamMeeting from "@/assets/team-meeting.jpg";
+import modernOffice from "@/assets/modern-office.jpg";
+import workplaceCulture from "@/assets/workplace-culture.jpg";
 
 const benefits = [
   "Competitive compensation packages",
@@ -153,6 +155,15 @@ export default function CareersPage() {
 
             {/* Current Opportunities */}
             <div>
+              <div className="relative rounded-xl overflow-hidden mb-6 shadow-lg group">
+                <img 
+                  src={workplaceCulture}
+                  alt="Modern workplace culture and opportunities" 
+                  className="w-full h-48 object-cover rounded-xl transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-secondary/40 to-transparent" />
+              </div>
               <h2 className="text-3xl font-bold text-foreground mb-6">
                 Current Opportunities
               </h2>
@@ -160,7 +171,7 @@ export default function CareersPage() {
                 {roles.map((role) => (
                   <div
                     key={role.title}
-                    className="bg-card rounded-lg p-4 shadow-elevated flex items-center justify-between"
+                    className="bg-card rounded-lg p-4 shadow-elevated flex items-center justify-between hover:shadow-lg transition-all duration-300"
                   >
                     <div>
                       <h4 className="font-semibold text-foreground">{role.title}</h4>

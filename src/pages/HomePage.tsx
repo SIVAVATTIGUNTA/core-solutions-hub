@@ -22,6 +22,10 @@ import cloudTech from "@/assets/cloud-tech.jpg";
 import workforceTeam from "@/assets/workforce-team.jpg";
 import techPartners from "@/assets/tech-partners.jpg";
 import digitalTransformation from "@/assets/digital-transformation.jpg";
+import businessStrategy from "@/assets/business-strategy.jpg";
+import businessAnalytics from "@/assets/business-analytics.jpg";
+import modernOffice from "@/assets/modern-office.jpg";
+import teamCollaboration from "@/assets/team-collaboration.jpg";
 
 const services = [
   {
@@ -110,10 +114,10 @@ export default function HomePage() {
           <div className="flex-1 flex items-center">
             <div className="container-wide py-16">
               <div className={`max-w-2xl transition-all duration-500 ${isTransitioning ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight mb-4">
+                <h1 className="heading-lg text-primary-foreground mb-6 text-balance">
                   {services[activeService].subtitle}
                 </h1>
-                <p className="text-lg text-primary-foreground/80 mb-8 leading-relaxed">
+                <p className="text-body-lg text-primary-foreground/90 mb-8 text-pretty">
                   {services[activeService].description}
                 </p>
                 <Button asChild variant="accent" size="lg" className="group">
@@ -187,15 +191,33 @@ export default function HomePage() {
                 </div>
               </ScrollReveal>
               <div className="grid sm:grid-cols-2 gap-6">
-                {features.map((feature, index) => (
-                  <ScrollReveal key={feature.title} delay={(index + 2) * 100}>
-                    <div className="bg-secondary rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                      <feature.icon className="h-8 w-8 text-accent mb-4 transition-transform duration-300 hover:scale-110" />
-                      <h4 className="font-semibold text-foreground mb-2">{feature.title}</h4>
-                      <p className="text-sm text-muted-foreground">{feature.description}</p>
-                    </div>
-                  </ScrollReveal>
-                ))}
+                {features.map((feature, index) => {
+                  const featureImages = [businessStrategy, businessAnalytics, modernOffice, teamCollaboration];
+                  return (
+                    <ScrollReveal key={feature.title} delay={(index + 2) * 100}>
+                      <div className="bg-secondary rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group">
+                        <div className="relative h-32 overflow-hidden">
+                          <img 
+                            src={featureImages[index]} 
+                            alt={feature.title}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-secondary to-transparent" />
+                          <div className="absolute top-4 left-4">
+                            <div className="w-10 h-10 rounded-lg bg-accent/20 backdrop-blur-sm flex items-center justify-center">
+                              <feature.icon className="h-5 w-5 text-accent" />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="p-6">
+                          <h4 className="font-semibold text-foreground mb-2">{feature.title}</h4>
+                          <p className="text-sm text-muted-foreground">{feature.description}</p>
+                        </div>
+                      </div>
+                    </ScrollReveal>
+                  );
+                })}
               </div>
             </div>
           </div>

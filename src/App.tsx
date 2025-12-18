@@ -15,7 +15,7 @@ import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
 import TermsPage from "@/pages/TermsPage";
 import CookiePolicyPage from "@/pages/CookiePolicyPage";
 import NotFound from "@/pages/NotFound";
-
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 const queryClient = new QueryClient();
 
 const App = () => (

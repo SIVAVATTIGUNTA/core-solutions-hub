@@ -18,6 +18,9 @@ import dataAnalytics from "@/assets/data-analytics.jpg";
 import teamMeeting from "@/assets/team-meeting.jpg";
 import businessGrowth from "@/assets/business-growth.jpg";
 import innovation from "@/assets/innovation.jpg";
+import modernOffice from "@/assets/modern-office.jpg";
+import teamCollaboration from "@/assets/team-collaboration.jpg";
+import workplaceCulture from "@/assets/workplace-culture.jpg";
 
 const values = [
   {
@@ -93,11 +96,11 @@ export default function AboutPage() {
         />
         <div className="container-wide relative z-10">
           <div className="max-w-3xl">
-            <p className="text-accent font-medium mb-4">About TGC Technologies</p>
-            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground leading-tight mb-6">
+            <p className="text-accent font-semibold mb-4 text-sm uppercase tracking-wide">About TGC Technologies</p>
+            <h1 className="heading-lg text-primary-foreground mb-6 text-balance">
               Bridging Business Ambition with Technological Capability
             </h1>
-            <p className="text-lg text-primary-foreground/80 leading-relaxed">
+            <p className="text-body-lg text-primary-foreground/90 text-pretty">
               TGC Technologies is a global technology consulting and workforce solutions organisation headquartered in London, supporting enterprises in navigating complex digital challenges.
             </p>
           </div>
@@ -275,16 +278,30 @@ export default function AboutPage() {
             </div>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
-            {locations.map((location) => (
-              <div
-                key={location.city}
-                className="bg-card rounded-xl p-6 border border-border shadow-elevated"
-              >
-                <p className="text-sm text-accent font-medium mb-1">{location.type}</p>
-                <h4 className="text-lg font-semibold text-foreground">{location.city}</h4>
-                <p className="text-muted-foreground">{location.country}</p>
-              </div>
-            ))}
+            {locations.map((location, index) => {
+              const locationImages = [modernOffice, teamCollaboration, workplaceCulture, innovation];
+              return (
+                <div
+                  key={location.city}
+                  className="bg-card rounded-xl overflow-hidden border border-border shadow-elevated group hover:shadow-lg transition-all duration-300"
+                >
+                  <div className="relative h-32 overflow-hidden">
+                    <img 
+                      src={locationImages[index]} 
+                      alt={`${location.city} office`}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
+                  </div>
+                  <div className="p-6">
+                    <p className="text-sm text-accent font-medium mb-1">{location.type}</p>
+                    <h4 className="text-lg font-semibold text-foreground">{location.city}</h4>
+                    <p className="text-muted-foreground">{location.country}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

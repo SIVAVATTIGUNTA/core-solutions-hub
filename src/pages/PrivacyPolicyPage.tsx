@@ -113,8 +113,8 @@ export default function PrivacyPolicyPage() {
                   <p className="text-foreground font-medium">Data Protection Officer</p>
                   <p className="text-muted-foreground">TGC Technologies</p>
                   <p className="text-muted-foreground">85 Uxbridge Road, 1st Floor</p>
-                  <p className="text-muted-foreground">Ealing Cross, London W5</p>
-                  <p className="text-accent mt-2">privacy@tgcworld.com</p>
+                  <p className="text-muted-foreground">Ealing Cross, London W5 5BW</p>
+                  <p className="text-accent mt-2">privacy@tgcworld.co.uk</p>
                 </div>
               </div>
 
